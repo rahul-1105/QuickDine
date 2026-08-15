@@ -1,7 +1,8 @@
 import "dotenv/config";
-import express, { Request, Response } from "express";
+import express, { NextFunction, Request, Response } from "express";
 import cors from "cors";
 import connectDB from "./config/db.js";
+import authRoutes from "./routes/auth.route.js";
 
 const app = express();
 
@@ -14,6 +15,18 @@ const PORT = process.env.PORT || 3000;
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello, World!");
+});
+
+//routes
+app.use("/api/auth", authRoutes);
+
+//Global error handler
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+  console.error("Unhandle Error:", err);
+  res.status(500).json({
+    message: err.message || "Internal Server Error",
+    stack: process.env.NODE_ENV === "production" ? undefined : err.stack,
+  });
 });
 
 app.listen(PORT, () => {

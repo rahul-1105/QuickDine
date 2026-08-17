@@ -5,6 +5,7 @@ import connectDB from "./config/db.js";
 import authRoutes from "./routes/auth.route.js";
 import restaurantRoutes from "./routes/restaurant.route.js";
 import bookingRoutes from "./routes/booking.route.js";
+import ownerRoutes from "./routes/owner.route.js";
 
 const app = express();
 
@@ -23,9 +24,10 @@ app.get("/", (req: Request, res: Response) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/restaurants", restaurantRoutes);
 app.use("/api/bookings", bookingRoutes);
+app.use("/api/owner", ownerRoutes)
 
 //Global error handler
-app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => { 
   console.error("Unhandle Error:", err);
   res.status(500).json({
     message: err.message || "Internal Server Error",

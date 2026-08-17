@@ -4,6 +4,7 @@ import cors from "cors";
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/auth.route.js";
 import restaurantRoutes from "./routes/restaurant.route.js";
+import bookingRoutes from "./routes/booking.route.js";
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.get("/", (req: Request, res: Response) => {
 //routes
 app.use("/api/auth", authRoutes);
 app.use("/api/restaurants", restaurantRoutes);
+app.use("/api/bookings", bookingRoutes);
 
 //Global error handler
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {

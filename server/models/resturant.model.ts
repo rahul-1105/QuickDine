@@ -23,7 +23,7 @@ export interface IRestaurant extends Document {
   updatedAt: Date;
 }
 
-const restaurantSchema: Schema<IRestaurant> = new mongoose.Schema(
+const restaurantSchema: Schema<IRestaurant> = new Schema(
   {
     name: {
       type: String,
@@ -39,7 +39,7 @@ const restaurantSchema: Schema<IRestaurant> = new mongoose.Schema(
     },
     description: {
       type: String,
-      requird: true,
+      required: true,
     },
     cuisine: {
       type: String,
@@ -62,7 +62,7 @@ const restaurantSchema: Schema<IRestaurant> = new mongoose.Schema(
       default: 0,
     },
     location: {
-      types: String,
+      type: String,
       required: true,
       trim: true,
     },
@@ -112,4 +112,7 @@ const restaurantSchema: Schema<IRestaurant> = new mongoose.Schema(
   }
 );
 
-export const Restaurant = mongoose.model<IRestaurant>("Restaurant", restaurantSchema);
+export const Restaurant = mongoose.model<IRestaurant>(
+  "Restaurant",
+  restaurantSchema
+);

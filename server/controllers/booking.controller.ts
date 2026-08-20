@@ -83,7 +83,7 @@ export const creatBooking = async (req: AuthRequest, res: Response) => {
 export const getMyBookings = async (req: AuthRequest, res: Response) => {
   try {
     const bookings = await Booking.find({ user: req.user?._id })
-      .populate("restaurant", "name location image, address, slug")
+      .populate("restaurant", "name location image address slug")
       .sort({ date: -1, time: -1 });
 
     return res.json(bookings);

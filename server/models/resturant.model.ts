@@ -66,6 +66,11 @@ const restaurantSchema: Schema<IRestaurant> = new Schema(
       required: true,
       trim: true,
     },
+    address: {
+      type: String,
+      required:true,
+      trim: true,
+    },
     image: {
       type: String,
       default: "",

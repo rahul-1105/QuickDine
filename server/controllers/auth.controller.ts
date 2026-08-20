@@ -32,34 +32,33 @@ export const registerUser = async (req: Request, res: Response) => {
       return res.status(400).json({
         message: "User already exists",
       });
-
-      //hashing password
-      const salt = await bcrypt.genSalt(10)
-      const hashedPassword = await bcrypt.hash(password, salt);
-
-      const newUser = await User.create({
-        name,
-        email,
-        password: hashedPassword,
-        phone,
-        role,
-      });
-
-      if (newUser) {
-        res.status(201).json({
-          _id: newUser._id,
-          name: newUser.name,
-          email: newUser.email,
-          phone: newUser.phone,
-          role: newUser.role,
-          token: generateToken(newUser._id.toString()),
-        });
-      } else {
-        res.status(400).json({
-          message: "Invalid user data",
-        });
-      }
     }
+
+    //hashing password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    const newUser = await User.create({
+      name,
+      email,
+      password: hashedPassword,
+      phone,
+      role,
+    });
+
+    if (newUser) {
+      return res.status(201).json({
+        _id: newUser._id,
+        name: newUser.name,
+        email: newUser.email,
+        phone: newUser.phone,
+        role: newUser.role,
+        token: generateToken(newUser._id.toString()),
+      });
+    }
+    return res.status(400).json({
+      message: "Invalid user data",
+    });
   } catch (error: any) {
     res.status(500).json({
       message: "Server error",
@@ -87,7 +86,10 @@ export const loginUser = async (req: Request, res: Response) => {
     }
 
     //check if password is corr{ect
-    const isPasswordCorrect = await bcrypt.compare(password, user.password || "");
+    const isPasswordCorrect = await bcrypt.compare(
+      password,
+      user.password || ""
+    );
 
     if (!isPasswordCorrect) {
       return res.status(401).json({
@@ -103,27 +105,25 @@ export const loginUser = async (req: Request, res: Response) => {
       role: user.role,
       token: generateToken(user._id.toString()),
     });
-
-  } catch (error : any) {
+  } catch (error: any) {
     res.status(500).json({
       message: "Server error",
     });
   }
 };
 
-
 export const getMe = async (req: AuthRequest, res: Response) => {
   try {
-    if(!req.user) {
+    if (!req.user) {
       return res.status(401).json({
-        message: "Not Authorized"
-      })
+        message: "Not Authorized",
+      });
     }
     return res.json(req.user);
   } catch (error: any) {
     console.error(error);
     return res.status(400).json({
-      message: error.message
-    })
+      message: error.message,
+    });
   }
-}
+};

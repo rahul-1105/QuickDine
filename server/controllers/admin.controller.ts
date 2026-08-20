@@ -23,7 +23,7 @@ export const getAllRestaurants = async (req: AuthRequest, res: Response) => {
 export const approveRestaurant = async (req: AuthRequest, res: Response) => {
   try {
     const { status } = req.body;
-    if (!status || !["confirmed", "cancelled", "completed"].includes(status)) {
+    if (!status || !["pending", "approved", "rejected"].includes(status)) {
       return res
         .status(400)
         .json({ message: "Please enter a valid booking status" });

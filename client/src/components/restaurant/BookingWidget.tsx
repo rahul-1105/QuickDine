@@ -68,7 +68,7 @@ export default function BookingWidget({
                         />
                     </div>
                 </div>
-
+                
                 {/* Time Slots Grid */}
                 <div className="space-y-2 pt-2">
                     <span className="block text-[10px] font-medium text-black/55 tracking-wider uppercase">AVAILABLE TIMES</span>

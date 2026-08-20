@@ -1,8 +1,9 @@
 import { Response } from "express";
 import { AuthRequest } from "../middlewares/auth.middleware.js";
 import { Restaurant } from "../models/resturant.model.js";
-import { v2 as cloudinary } from "cloudinary";
 import { Booking } from "../models/booking.model.js";
+// import cloudinary from "../config/cloudinary.js";
+import { v2 as cloudinary } from "cloudinary";
 
 // Helper function to upload buffer to cloudinary
 const uploadToCloudinary = (
@@ -53,7 +54,7 @@ export const createOwnerRestaurant = async (
       owner: req.user?._id,
     });
 
-    if (!existing) {
+    if (existing) {
       return res.status(400).json({
         message: "You already have a restaurant registered",
       });
@@ -232,6 +233,7 @@ export const getOwnerBookings = async (req: AuthRequest, res: Response) => {
 export const updateBookingStatus = async (req: AuthRequest, res: Response) => {
   try {
     const { status } = req.body;
+    console.log(status);
     if (!status || !["confirmed", "cancelled", "completed"].includes(status)) {
       return res
         .status(400)
